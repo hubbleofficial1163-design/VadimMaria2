@@ -391,17 +391,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Настройка отправки формы
-    function setupFormSubmission() {
+function setupFormSubmission() {
     const submitBtn = document.getElementById('submitConfirmation');
     
     if (submitBtn && hotelInfoCheckbox) {
-        // Отслеживание изменения чекбокса
         hotelInfoCheckbox.addEventListener('change', function() {
             submitBtn.disabled = !this.checked;
         });
         
-        // Отправка формы
-        submitBtn.addEventListener('click', function() {
+        submitBtn.addEventListener('click', async function() {
             if (validateStep6()) {
                 // Сбор данных формы
                 const formData = {
@@ -411,53 +409,86 @@ document.addEventListener('DOMContentLoaded', function() {
                     food: document.querySelector('input[name="food"]:checked')?.value || '',
                     alcohol: document.querySelector('input[name="alcohol"]:checked')?.value || '',
                     hotel: document.querySelector('input[name="hotel"]:checked')?.value || '',
-                    hotelInfo: hotelInfoCheckbox.checked,
+                    hotelInfo: hotelInfoCheckbox.checked ? 'да' : 'нет',
                     message: document.getElementById('message')?.value.trim() || ''
                 };
                 
-                // Показываем индикатор загрузки
                 submitBtn.disabled = true;
                 submitBtn.textContent = 'Отправка...';
                 
-                // URL вашего Google Apps Script веб-приложения
-                // ⚠️ ВАЖНО: Замените этот URL на ваш реальный URL после развертывания!
-                const scriptUrl = 'https://script.google.com/macros/s/AKfycbwCZvG71t8jgWVOODLL4v8P4hDd1MNN-ORhpf7Q6hGuKSyfTkN5Fm09sRRdICTbrS0/exec'; // Ваш URL здесь
+                // URL вашего Google Apps Script
+                const scriptUrl = 'https://script.google.com/macros/s/AKfycbz20JdkWyiORcm6wlHGjk8MbJlHTrmAGIbMo0GwqOZzCDXb_B1cLrwxgm4IoXKyw1-I/exec';
                 
-                // Реальная отправка
-                fetch(scriptUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    mode: 'no-cors', // Для Google Apps Script
-                    body: JSON.stringify(formData)
-                })
-                .then(response => {
-                    // С Google Apps Script и no-cors мы не можем прочитать ответ
-                    // Но показываем успех если запрос ушел
-                    console.log('Данные отправлены:', formData);
+                try {
+                    // Используем прокси для обхода CORS
+                    await sendDataUsingProxy(formData, scriptUrl);
                     
-                    // Показываем экран успеха
+                    // Показываем успех
                     showStep(successStep);
                     
-                    // Восстанавливаем кнопку
-                    submitBtn.disabled = false;
-                    submitBtn.textContent = 'Отправить подтверждение';
-                })
-                .catch(error => {
-                    console.error('Ошибка:', error);
-                    
-                    // Показываем экран успеха даже при ошибке (чтобы не смущать пользователя)
-                    // В реальном приложении можно показать сообщение об ошибке
+                } catch (error) {
+                    console.error('Ошибка отправки:', error);
+                    // Все равно показываем успех (чтобы не смущать гостей)
                     showStep(successStep);
-                    
-                    // Восстанавливаем кнопку
+                } finally {
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'Отправить подтверждение';
-                });
+                }
             }
         });
     }
+}
+
+// Функция отправки через прокси/без CORS проблем
+function sendDataUsingProxy(formData, scriptUrl) {
+    return new Promise((resolve, reject) => {
+        // Способ 1: Используем JSONP подход (работает везде)
+        const callbackName = 'jsonp_callback_' + Math.round(100000 * Math.random());
+        
+        // Создаем script тег
+        const script = document.createElement('script');
+        script.src = `${scriptUrl}?${objectToQueryString(formData)}&callback=${callbackName}`;
+        
+        // Определяем callback функцию
+        window[callbackName] = function(response) {
+            // Удаляем script тег
+            document.body.removeChild(script);
+            delete window[callbackName];
+            
+            if (response && response.success) {
+                resolve(response);
+            } else {
+                reject(new Error('Ошибка сервера'));
+            }
+        };
+        
+        // Обработка ошибок
+        script.onerror = function() {
+            document.body.removeChild(script);
+            delete window[callbackName];
+            reject(new Error('Ошибка сети'));
+        };
+        
+        // Добавляем script на страницу (это запустит запрос)
+        document.body.appendChild(script);
+        
+        // Таймаут на всякий случай
+        setTimeout(() => {
+            if (window[callbackName]) {
+                document.body.removeChild(script);
+                delete window[callbackName];
+                // Все равно резолвим (лучше успех, чем ошибка для гостя)
+                resolve({ success: true, timeout: true });
+            }
+        }, 5000);
+    });
+}
+
+// Вспомогательная функция для преобразования объекта в query string
+function objectToQueryString(obj) {
+    return Object.keys(obj)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
+        .join('&');
 }
     
     // Закрытие модального окна
