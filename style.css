@@ -1,0 +1,2839 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'EB Garamond', sans-serif;
+    color: #000;
+    overflow-x: hidden;
+    line-height: 1.6;
+    width: 100vw;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* EB Garamond для ВСЕХ текстовых элементов по умолчанию */
+p, span, div, .guest-text, .section-text, .timing-event, 
+.timing-note, .dresscode-text, .schedule-location, 
+.schedule-description, .form-group label, .form-input,
+.form-textarea, .radio-text, .checkbox-text, .info-box p,
+.modal-step p, .modal-step h4 {
+    font-family: 'EB Garamond', serif;
+}
+
+/* Фоновое изображение только для первой секции */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('11.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    opacity: 0.9;
+}
+
+/* Более прозрачный оверлей только для первой секции */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: -1;
+}
+
+/* Первая секция */
+.hero {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Вертикальная дата и линия слева - смещаем вправо на 15% */
+.vertical-elements {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    width: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 15%; /* Смещаем вправо на 15% */
+    z-index: 2;
+    height: auto; /* Убираем фиксированную высоту */
+}
+
+.date-vertical {
+    display: flex;
+    flex-direction: column;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 18px;
+    letter-spacing: 2px;
+    margin-bottom: 15px; /* Увеличил отступ от линии */
+}
+
+.date-vertical span {
+    margin-bottom: 5px;
+}
+
+/* Вертикальная линия - УКОРАЧИВАЕМ */
+.vertical-line-container {
+    position: absolute;
+    left: calc(50% - 0.5px); /* Центрируем линию относительно даты */
+    top: 14vh; /* Начинается после даты */
+    height: 76vh; /* ИЗМЕНЕНО: было 226px, стало 150px (укоротили) */
+    display: flex;
+    justify-content: center;
+}
+
+.vertical-line {
+    width: 1px;
+    background-color: #000;
+    height: 100%; /* Занимает всю высоту контейнера */
+}
+
+/* Основной контент - тоже смещаем вправо на 15% */
+.main-content {
+    position: relative;
+    height: 100vh;
+    margin-left: calc(15% + 60px); /* Смещаем вправо на 15% + отступ от линии */
+    padding-right: 20px;
+}
+
+/* Контейнер для имен - поднимаем выше (было top: 50%, стало top: 45%) */
+.names-container {
+    position: absolute;
+    top: 45%; /* Поднимаем выше чем было (было 50%) */
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+/* Имена - больше и жирнее (увеличиваем шрифт) */
+.name {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300; /* Более жирный чем 100 */
+    font-size: 44px; /* Увеличил с 38px до 44px */
+    letter-spacing: 8px;
+    margin: 0;
+    line-height: 1.1;
+    text-align: left;
+}
+
+/* Шрифт "and" оставляем как есть */
+.and {
+    font-family: 'Dancing Script', cursive;
+    font-size: 24px;
+    margin: 8px 0;
+    font-weight: 300;
+    color: #333;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+/* Контейнер для основного текста (ПРИГЛАШАЕМ...) и даты */
+.text-content {
+    position: absolute;
+    top: calc(50% + 110px); /* Поднимаем выше чем было (было 120px) */
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.invitation-text {
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    max-width: 280px;
+    margin: 0 0 15px 0; /* Уменьшен отступ */
+    font-weight: 300;
+    line-height: 1.4;
+    text-align: left;
+}
+
+/* Дата - остается на месте */
+.date-details {
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 35px; /* Увеличил с 20px до 24px (сдвигаем чуть ниже) */
+    text-transform: lowercase;
+    text-align: left;
+}
+
+/* Новый контейнер для текста "Ждем Вас на нашей свадьбе" - СДВИНУТ ВНИЗ */
+.waiting-text-container {
+    position: absolute;
+    top: 85svh; /* ИЗМЕНЕНО: было 180px, стало 440px (сдвинули вниз) */
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+/* Стили для текста "Ждем Вас на нашей свадьбе" */
+.waiting-text {
+    font-family: 'Great Vibes', cursive;
+    font-size: 26px;
+    margin-bottom: 0; /* Убираем отступ снизу */
+    font-weight: 400;
+    color: #333;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    line-height: 1.2;
+    letter-spacing: 1px;
+    text-align: left;
+}
+
+/* Счетчик - остается на своем месте */
+.countdown-wrapper {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    right: 20px;
+    z-index: 1;
+}
+
+.countdown {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 0;
+}
+
+.countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 55px;
+    padding: 8px 5px;
+    border-radius: 3px;
+    background-color: transparent;
+}
+
+.countdown-item span:first-child {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Roboto', sans-serif;
+    margin-bottom: 5px;
+}
+
+.countdown-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 300;
+}
+
+/* Все секции после первой - с белым фоном */
+.guest-section,
+.couple-photos-section,
+.info-section,
+.waiting-section,
+.timing-section {
+    background-color: white !important;
+    position: relative;
+    z-index: 1;
+}
+
+/* Убираем фоновые эффекты для всех секций кроме первой */
+.guest-section::before,
+.couple-photos-section::before,
+.info-section::before,
+.waiting-section::before,
+.timing-section::before,
+.guest-section::after,
+.couple-photos-section::after,
+.info-section::after,
+.waiting-section::after,
+.timing-section::after {
+    display: none;
+}
+
+/* Вторая секция */
+.guest-section {
+    padding: 40px 20px;
+    text-align: center;
+    margin: 0;
+    border-radius: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.guest-title {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700; /* Жирный шрифт */
+    font-size: 28px;
+    margin-bottom: 30px;
+    line-height: 1.3;
+    color: #000; /* Черный цвет */
+}
+
+.guest-title span {
+    display: block;
+}
+
+/* После hero секции меняем шрифт для всех НЕ заголовков */
+.guest-text {
+    max-width: 300px;
+    margin: 0 auto 30px;
+    font-size: 15px;
+    line-height: 1.7;
+    text-align: center;
+    font-weight: 300;
+    font-family: 'Georgia', serif; /* Более красивый шрифт для текста */
+}
+
+.event-time {
+    margin-top: 20px;
+    font-size: 16px;
+    padding: 0; /* Убрали выделение */
+    border-radius: 0;
+    display: block;
+    font-weight: 400; /* Убрали жирный */
+    font-family: 'Georgia', serif; /* Более красивый шрифт для текста */
+}
+
+.photo-container {
+    max-width: 280px;
+    margin: 0 auto 30px;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 3px solid white;
+}
+
+.couple-photo {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Шрифт "Там где посеяна любовь, растет радость!" */
+.quote {
+    font-family: 'Great Vibes', cursive;
+    font-size: 28px;
+    font-weight: 400;
+    max-width: 300px;
+    margin: 0 auto;
+    line-height: 1.3;
+    padding: 0; /* Убрали выделение */
+    border-radius: 0;
+    color: #000;
+    text-shadow: none; /* Убрали тень текста */
+    letter-spacing: 0.5px;
+    background-color: transparent; /* Убрали фон */
+}
+
+/* НОВЫЕ СТИЛИ: Фотографии жениха и невесты - БОЛЬШИЕ и БЕЗ РАМКИ */
+.couple-photos-section {
+    padding: 40px 20px;
+    text-align: center;
+    background-color: white;
+}
+
+.photo-pair {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 40px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.oval-photo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.oval-photo-frame {
+    width: 260px; /* Увеличил размер фото */
+    height: 340px; /* Увеличил размер фото и сделал более вытянутым */
+    border-radius: 50% / 40%;
+    overflow: hidden;
+    margin-bottom: 8px; /* Уменьшил расстояние между фото и именем */
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Легкая тень вместо рамки */
+}
+
+.oval-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+}
+
+.photo-name {
+    font-family: 'Great Vibes', cursive; /* Шрифт как у "Там где посеяна любовь..." */
+    font-size: 32px; /* Увеличил шрифт */
+    font-weight: 400;
+    color: #000;
+    letter-spacing: 0.5px; /* Как у .quote */
+    margin-top: 3px;
+    line-height: 1.3; /* Как у .quote */
+    text-shadow: none; /* Как у .quote */
+}
+
+/* Специальный шрифт как "end" */
+.signature-font {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 400;
+    color: #000;
+}
+
+/* НОВЫЕ СТИЛИ: Информационные секции */
+.info-section {
+    padding: 40px 20px;
+    text-align: center;
+    background-color: white;
+    margin: 0;
+    /* Убрали border-top */
+}
+
+.section-title {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    color: #000; /* Черный цвет */
+    letter-spacing: 2px;
+}
+
+/* После hero секции меняем шрифт для всех НЕ заголовков */
+.section-text {
+    font-family: 'Georgia', serif; /* Более красивый шрифт для текста */
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 320px;
+    margin: 0 auto 20px;
+    color: #333;
+}
+
+/* НОВЫЕ СТИЛИ: Секция "Ждем вас" */
+.waiting-section {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: white;
+}
+
+/* Шрифт "ждем вас на свадьбе" */
+.waiting-title {
+    font-family: 'Roboto', sans-serif; /* ИЗМЕНЕНО: было 'Great Vibes', cursive */
+    font-weight: 700; /* ИЗМЕНЕНО: было 400 */
+    font-size: 28px; /* ИЗМЕНЕНО: было 40px */
+    margin-bottom: 25px; /* ИЗМЕНЕНО: было 40px */
+    letter-spacing: 2px; /* ИЗМЕНЕНО: было 2.5px */
+    color: #000;
+    text-transform: uppercase; /* ДОБАВЛЕНО: как у других заголовков */
+}
+
+.final-photo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.oval-photo-frame.couple-final {
+    width: 280px; /* Увеличил размер фото */
+    height: 360px; /* Увеличил размер фото */
+    margin-bottom: 10px; /* Приблизил фото к тексту */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.final-signature {
+    font-family: 'Great Vibes', cursive;
+    font-size: 24px; /* Уменьшил размер */
+    font-weight: 400;
+    letter-spacing: 1.5px;
+    margin-top: 5px;
+    color: #000;
+}
+
+/* НОВЫЕ СТИЛИ: Тайминг */
+.timing-section {
+    padding: 50px 20px;
+    text-align: center;
+    background-color: white;
+    /* Убрали border-top */
+}
+
+.timing-item {
+    display: flex;
+    flex-direction: column; /* Иконка над текстом */
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Увеличиваем PNG объекты */
+.timing-icon {
+    width: 60px !important; /* Увеличил на 50% для заметности: было 40px, стало 60px */
+    height: 60px !important; /* Увеличил на 50% для заметности: было 40px, стало 60px */
+    margin-bottom: 15px !important; /* Увеличил отступ */
+    background-color: transparent !important;
+    border-radius: 0 !important;
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    filter: grayscale(100%) !important;
+}
+
+/* Заменяем эмодзи на PNG изображения */
+.location-icon {
+    background-image: url('map.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+
+.rings-icon {
+    background-image: url('ring.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    width: 90px !important; /* ИЗМЕНЕНО: было наследовало 60px */
+    height: 90px !important; /* ИЗМЕНЕНО: было наследовало 60px */
+    transform: rotate(30deg); /* Поворот на 15 градусов */
+}
+
+.car-icon {
+    background-image: url('car.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    width: 80px !important;
+    height: 80px !important;
+}
+
+.champagne-icon {
+    background-image: url('champ.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+
+.firework-icon {
+    background-image: url('dr.png') !important;
+    background-size: contain !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    width: 120px !important;
+    height: 120px !important;
+}
+
+/* Убираем псевдоэлементы с эмодзи */
+.location-icon::after,
+.rings-icon::after,
+.car-icon::after,
+.champagne-icon::after,
+.firework-icon::after {
+    display: none !important;
+}
+
+.timing-details {
+    text-align: center;
+}
+
+.timing-time {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 5px;
+}
+
+/* После hero секции меняем шрифт для всех НЕ заголовков */
+.timing-event {
+    font-family: 'Georgia', serif; /* Более красивый шрифт для текста */
+    font-weight: 300;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+}
+
+/* После hero секции меняем шрифт для всех НЕ заголовков */
+.timing-note {
+    font-family: 'Georgia', serif; /* Более красивый шрифт для текста */
+    font-weight: 300;
+    font-size: 13px;
+    font-style: italic;
+    color: #666;
+    max-width: 320px;
+    margin: 40px auto 0;
+    line-height: 1.6;
+}
+
+/* Медиа-запросы для мобильных - В ПРАВИЛЬНОМ ПОРЯДКЕ (от большего к меньшему) */
+@media only screen and (max-width: 768px) {
+    .hero {
+        padding: 15px;
+    }
+    
+    .vertical-elements {
+        left: 15px;
+        margin-left: 12%; /* Меньше смещение на маленьких экранах */
+    }
+    
+    .vertical-line-container {
+        height: 76vh; /* ИЗМЕНЕНО: было 190px, стало 120px (укоротили) */
+        top: 14vh;
+    }
+    
+    .main-content {
+        margin-left: calc(12% + 50px);
+        padding-right: 15px;
+    }
+    
+    /* Поднимаем имена выше для мобильных */
+    .names-container {
+        top: 43%; /* Поднимаем выше чем было для мобильных */
+    }
+    
+    .name {
+        font-size: 40px; /* Увеличил для мобильных с 34px до 40px */
+        letter-spacing: 7px;
+    }
+    
+    .and {
+        font-size: 22px;
+    }
+    
+    /* Для мобильных */
+    .text-content {
+        top: calc(50% + 90px); /* ИЗМЕНЕНО: было 100px, стало 90px (поднимаем выше) */
+        right: 0;
+    }
+    
+    /* Для мобильных - ТЕКСТ "ЖДЕМ ВАС" СДВИНУТ ВНИЗ */
+    .waiting-text-container {
+        top: 85svh; /* ИЗМЕНЕНО: было 150px, стало 370px (сдвинули вниз) */
+        left: 0;
+        right: 0;
+        z-index: 1;
+    }
+    
+    .invitation-text {
+        font-size: 12px;
+        max-width: 250px;
+        margin-bottom: 12px;
+    }
+    
+    .date-details {
+        margin-bottom: 30px; /* Увеличил для мобильных с 15px до 20px */
+    }
+    
+    /* "Ждем Вас на нашей свадьбе" - для мобильных */
+    .waiting-text {
+        font-size: 24px;
+        margin-bottom: 0; /* Убираем отступ снизу */
+    }
+    
+    .countdown-wrapper {
+        left: 50px;
+        right: 15px;
+        bottom: 30px;
+    }
+    
+    .countdown {
+        gap: 10px;
+    }
+    
+    .countdown-item {
+        min-width: 50px;
+        padding: 6px 4px;
+    }
+    
+    .countdown-item span:first-child {
+        font-size: 18px;
+    }
+    
+    .guest-title {
+        font-size: 24px;
+    }
+    
+    .guest-text {
+        max-width: 280px;
+        font-size: 14px;
+    }
+    
+    .guest-section {
+        padding: 30px 15px;
+    }
+    
+    .quote {
+        font-size: 26px;
+    }
+    
+    /* Адаптация новых секций для мобильных */
+    .photo-pair {
+        gap: 30px;
+    }
+    
+    .oval-photo-frame {
+        width: 220px;
+        height: 300px;
+        margin-bottom: 6px;
+    }
+    
+    .oval-photo-frame.couple-final {
+        width: 240px;
+        height: 320px;
+        margin-bottom: 4px;
+    }
+    
+    .waiting-title {
+        font-size: 24px; /* ИЗМЕНЕНО: было 34px */
+        margin-bottom: 20px; /* Подгоняем под новый размер */
+        letter-spacing: 1.5px; /* Немного уменьшаем интервал */
+    }
+    
+    .section-title {
+        font-size: 22px;
+    }
+    
+    .info-section {
+        padding: 30px 15px;
+    }
+    
+    .timing-section {
+        padding: 30px 15px;
+    }
+    
+    .photo-name {
+        font-size: 28px;
+        font-family: 'Great Vibes', cursive; /* Добавьте это */
+        letter-spacing: 0.5px; /* И это */
+    }
+    
+    .final-signature {
+        font-size: 22px;
+    }
+    
+    /* Увеличиваем PNG объекты для мобильных */
+    .timing-icon {
+        width: 50px !important; /* Увеличил на 50%: было 36px, стало 50px */
+        height: 50px !important; /* Увеличил на 50%: было 36px, стало 50px */
+        margin-bottom: 12px !important;
+    }
+
+    .rings-icon {
+        width: 90px !important; /* ИЗМЕНЕНО */
+        height: 90px !important; /* ИЗМЕНЕНО */
+    }
+
+    .car-icon, .champagne-icon {
+        width: 65px !important;
+        height: 65px !important;
+    }
+
+    .firework-icon {
+        width: 100px !important;
+        height: 100px !important;
+    }
+}
+
+/* Медиа-запрос для 480px - ДОЛЖЕН БЫТЬ ПОСЛЕ 768px! */
+@media only screen and (max-width: 480px) {
+    .photo-pair {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .oval-photo-frame {
+        width: 200px;
+        height: 280px;
+        margin-bottom: 5px;
+    }
+    
+    .oval-photo-frame.couple-final {
+        width: 280px;
+        height: 360px;
+        margin-bottom: 3px;
+    }
+    
+    .waiting-title {
+        font-size: 22px; /* ИЗМЕНЕНО: было 30px */
+        margin-bottom: 18px;
+        letter-spacing: 1px;
+    }
+    
+    .section-title {
+        font-size: 20px;
+    }
+    
+    .section-text {
+        font-size: 14px;
+        max-width: 300px;
+    }
+    
+    .photo-name {
+        font-size: 26px;
+        font-family: 'Great Vibes', cursive; /* Добавьте это */
+        letter-spacing: 0.5px; /* И это */
+    }
+    
+    .final-signature {
+        font-size: 20px;
+    }
+    
+    /* Для очень маленьких экранов */
+    .text-content {
+        top: calc(50% + 80px); /* ИЗМЕНЕНО: поднимаем выше */
+    }
+    
+    /* Для 480px - ВЕРТИКАЛЬНАЯ ЛИНИЯ */
+    .vertical-line-container {
+        height: 76vh; /* ДОБАВЛЕНО для 480px */
+        top: 14vh;
+    }
+    
+    /* Для 480px - ТЕКСТ "ЖДЕМ ВАС" СДВИНУТ ВНИЗ */
+    .waiting-text-container {
+        top: 82svh; /* ИЗМЕНЕНО: было 130px, стало 320px (сдвинули вниз) */
+    }
+    
+    /* Увеличиваем PNG объекты для мобильных */
+    .timing-icon {
+        width: 45px !important; /* Увеличил на 50%: было 32px, стало 45px */
+        height: 45px !important; /* Увеличил на 50%: было 32px, стало 45px */
+        margin-bottom: 10px !important;
+    }
+
+    .date-details {
+        margin-bottom: 28px; /* Пропорциональное значение */
+    }
+
+        .rings-icon {
+        width: 85px !important; /* ИЗМЕНЕНО */
+        height: 85px !important; /* ИЗМЕНЕНО */
+    }
+
+    .car-icon, .champagne-icon {
+        width: 60px !important;
+        height: 60px !important;
+    }
+
+    .firework-icon {
+        width: 90px !important;
+        height: 90px !important;
+    }
+}
+
+/* Медиа-запрос для 360px - ДОЛЖЕН БЫТЬ ПОСЛЕ 480px! */
+@media only screen and (max-width: 360px) {
+    .hero {
+        padding: 10px;
+    }
+    
+    .vertical-elements {
+        left: 10px;
+        margin-left: 10%;
+    }
+    
+    .vertical-line-container {
+        height: 70vh; /* ИЗМЕНЕНО: было 151px, стало 90px (укоротили) */
+        top: 12vh;
+    }
+    
+    .main-content {
+        margin-left: calc(10% + 45px);
+        padding-right: 10px;
+    }
+    
+    /* Поднимаем имена выше для маленьких экранов */
+    .names-container {
+        top: 42%; /* Поднимаем выше чем было для маленьких экранов */
+    }
+    
+    .name {
+        font-size: 34px; /* Увеличил для маленьких экранов с 28px до 34px */
+        letter-spacing: 5px;
+    }
+    
+    .and {
+        font-size: 20px;
+    }
+    
+    .text-content {
+        right: 0;
+        top: calc(50% + 70px); /* ИЗМЕНЕНО: было 90px, стало 70px (поднимаем выше) */
+    }
+    
+    /* Для 360px - ТЕКСТ "ЖДЕМ ВАС" СДВИНУТ ВНИЗ */
+    .waiting-text-container {
+        top: 80svh; /* ИЗМЕНЕНО: было 120px, стало 295px (сдвинули вниз) */
+    }
+    
+    .invitation-text {
+        font-size: 11px;
+        max-width: 220px;
+    }
+    
+    /* "Ждем Вас на нашей свадьбе" - для маленьких экранов */
+    .waiting-text {
+        font-size: 22px;
+        margin-bottom: 0; /* Убираем отступ снизу */
+    }
+    
+    .countdown-wrapper {
+        left: 45px;
+        right: 10px;
+        bottom: 20px;
+    }
+    
+    .countdown {
+        gap: 8px;
+    }
+    
+    .countdown-item {
+        min-width: 45px;
+        padding: 5px 3px;
+    }
+    
+    .countdown-item span:first-child {
+        font-size: 16px;
+    }
+    
+    .quote {
+        font-size: 22px;
+    }
+    
+    .oval-photo-frame {
+        width: 180px;
+        height: 250px;
+        margin-bottom: 4px;
+    }
+    
+    .oval-photo-frame.couple-final {
+        width: 200px;
+        height: 280px;
+        margin-bottom: 2px;
+    }
+    
+    .waiting-title {
+        font-size: 20px; /* ИЗМЕНЕНО: было 26px */
+        margin-bottom: 16px;
+        letter-spacing: 0.5px;
+    }
+    
+    .photo-name {
+        font-size: 24px;
+        font-family: 'Great Vibes', cursive; /* Добавьте это */
+        letter-spacing: 0.5px; /* И это */
+    }
+    
+    .final-signature {
+        font-size: 18px;
+    }
+    
+    .info-section {
+        padding: 25px 10px;
+    }
+    
+    .timing-section {
+        padding: 25px 10px;
+    }
+    
+    /* Увеличиваем PNG объекты для мобильных */
+    .timing-icon {
+        width: 40px !important; /* Увеличил на 50%: было 28px, стало 40px */
+        height: 40px !important; /* Увеличил на 50%: было 28px, стало 40px */
+        margin-bottom: 8px !important;
+    }
+
+    .date-details {
+        margin-bottom: 25px; /* Немного меньше для маленьких экранов */
+    }
+
+    .rings-icon {
+        width: 80px !important; /* ИЗМЕНЕНО */
+        height: 80px !important; /* ИЗМЕНЕНО */
+    }
+
+    .rings-icon {
+        width: 85px !important;
+        height: 85px !important;
+    }
+
+    .firework-icon {
+        width: 80px !important; /* 40 × 2 = 80px */
+        height: 80px !important;
+    }
+}
+
+/* Запрет на ПК */
+@media only screen and (min-width: 769px) {
+    body::before {
+        content: "Этот сайт предназначен только для мобильных устройств. Пожалуйста, откройте его на смартфоне.";
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        z-index: 10000;
+        padding: 20px;
+        text-align: center;
+        font-size: 18px;
+        line-height: 1.5;
+        background-image: none;
+        opacity: 1;
+    }
+    
+    /* body::after {
+        display: none;
+    } */
+}
+
+/* НОВАЯ СЕКЦИЯ: Dress Code */
+.dresscode-section {
+    padding: 40px 20px;
+    position: relative;
+    z-index: 1;
+    /* Убираем белый фон - используем общий фон сайта */
+    background-color: transparent;
+}
+
+.dresscode-title {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    color: #000;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.dresscode-text {
+    font-family: 'Georgia', serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 320px;
+    margin: 0 auto 15px;
+    color: #333;
+    text-align: center;
+}
+
+/* Контейнер для цветовых кружков */
+.color-palette {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 25px 0 30px;
+}
+
+.color-circle {
+    width: 60xp;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid rgba(224, 224, 224, 0.7);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dark-blue {
+    background-color: #091842; /* Темно-синий цвет */
+}
+
+.black {
+    background-color: #000000; /* Черный цвет */
+}
+
+/* Кнопка подтверждения - черная с более скругленными углами */
+.confirm-button {
+    display: block;
+    width: 220px;
+    height: 50px; /* Больше по вертикали */
+    margin: 0 auto 8px; /* Минимальное расстояние до следующего текста */
+    padding: 12px 20px;
+    background-color: #000000; /* Черный цвет */
+    color: white;
+    border: none;
+    border-radius: 12px; /* Более скругленные углы */
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 26px; /* Для вертикального центрирования текста */
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+    outline: none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+.confirm-button:hover {
+    background-color: #333333;
+    transform: translateY(-2px);
+}
+
+.confirm-button:active {
+    background-color: #000000;
+    transform: translateY(0);
+}
+
+/* Контейнер для эмодзи и текста */
+.add-message-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+}
+
+/* Эмодзи сообщения */
+.message-emoji {
+    font-size: 14px; /* Размер соответствует шрифту */
+    opacity: 0.6; /* Такая же прозрачность как у текста */
+}
+
+/* Текст под кнопкой */
+.add-message-text {
+    text-align: center;
+    font-family: 'Georgia', serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.6); /* Полупрозрачный цвет */
+    margin: 0;
+}
+
+/* НОВАЯ СЕКЦИЯ: Свадебное расписание - ДВА СТОЛБИКА */
+.schedule-section {
+    padding: 40px 20px;
+    background-color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.schedule-title {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    color: #000;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.schedule-container {
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+.schedule-item {
+    display: flex;
+    margin-bottom: 35px;
+    gap: 20px; /* Расстояние между столбиками */
+}
+
+/* ЛЕВЫЙ СТОЛБИК - время и дата */
+.schedule-left-column {
+    width: 80px; /* Фиксированная ширина левого столбика */
+    min-width: 80px; /* Минимальная ширина */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Выравнивание по правому краю */
+    padding-right: 15px;
+    border-right: 1px solid #e0e0e0; /* Линия-разделитель между столбиками */
+}
+
+.time-hour {
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 5px;
+    line-height: 1.2;
+    text-align: right;
+}
+
+.time-date {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #666;
+    font-weight: 400;
+    line-height: 1.2;
+    text-align: right;
+}
+
+/* ПРАВЫЙ СТОЛБИК - текст */
+.schedule-right-column {
+    flex: 1; /* Занимает оставшееся пространство */
+    display: flex;
+    flex-direction: column;
+}
+
+.schedule-event {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 8px;
+    line-height: 1.3;
+}
+
+.schedule-location {
+    font-family: 'Georgia', serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.7); /* Повышенная прозрачность */
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.schedule-separator {
+    width: 100%;
+    height: 1px;
+    background-color: #f0f0f0;
+    margin: 8px 0 10px 0;
+    border: none;
+}
+
+.schedule-description {
+    font-family: 'Georgia', serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.6;
+    padding-top: 8px;
+}
+
+/* Футер с Яндекс картой */
+.footer-map {
+    padding: 0;
+    background-color: white;
+    height: 300px; /* Высота карты */
+    position: relative;
+    z-index: 1;
+}
+
+.map-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Адаптивность для мобильных устройств - ДЛЯ ВСЕХ НОВЫХ СЕКЦИЙ */
+@media only screen and (max-width: 768px) {
+    .dresscode-section {
+        padding: 30px 15px;
+    }
+    
+    .schedule-section {
+        padding: 30px 15px;
+    }
+    
+    .color-circle {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .confirm-button {
+        width: 200px;
+        height: 48px;
+        font-size: 15px;
+    }
+    
+    .footer-map {
+        height: 250px;
+    }
+    
+    .schedule-container {
+        max-width: 300px;
+    }
+    
+    .schedule-left-column {
+        width: 70px;
+        min-width: 70px;
+    }
+    
+    .time-hour {
+        font-size: 17px;
+    }
+    
+    .time-date {
+        font-size: 13px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .dresscode-section {
+        padding: 25px 10px;
+    }
+    
+    .schedule-section {
+        padding: 25px 10px;
+    }
+    
+    .dresscode-title, .schedule-title {
+        font-size: 22px;
+    }
+    
+    .dresscode-text {
+        font-size: 14px;
+        max-width: 300px;
+    }
+    
+    .color-circle {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .color-palette {
+        gap: 20px;
+    }
+    
+    .confirm-button {
+        width: 180px;
+        height: 46px;
+        font-size: 14px;
+        border-radius: 10px;
+    }
+    
+    .add-message-container {
+        gap: 6px;
+    }
+    
+    .add-message-text {
+        font-size: 12px;
+    }
+    
+    .message-emoji {
+        font-size: 12px;
+    }
+    
+    .schedule-container {
+        max-width: 280px;
+    }
+    
+    .schedule-item {
+        gap: 15px;
+    }
+    
+    .schedule-left-column {
+        width: 65px;
+        min-width: 65px;
+        padding-right: 12px;
+    }
+    
+    .time-hour {
+        font-size: 16px;
+    }
+    
+    .time-date {
+        font-size: 12px;
+    }
+    
+    .schedule-event {
+        font-size: 15px;
+    }
+    
+    .schedule-location, .schedule-description {
+        font-size: 13px;
+    }
+    
+    .footer-map {
+        height: 200px;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .dresscode-section {
+        padding: 20px 10px;
+    }
+    
+    .schedule-section {
+        padding: 20px 10px;
+    }
+    
+    .color-circle {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .color-palette {
+        gap: 15px;
+    }
+    
+    .confirm-button {
+        width: 170px;
+        height: 44px;
+        font-size: 13px;
+    }
+    
+    .schedule-container {
+        max-width: 260px;
+    }
+    
+    .schedule-left-column {
+        width: 60px;
+        min-width: 60px;
+        padding-right: 10px;
+    }
+    
+    .time-hour {
+        font-size: 15px;
+    }
+    
+    .time-date {
+        font-size: 11px;
+    }
+    
+    .schedule-event {
+        font-size: 14px;
+    }
+    
+    .schedule-location, .schedule-description {
+        font-size: 12px;
+    }
+}
+
+
+/* Дополнительные стили для Яндекс карты */
+.map-container iframe {
+    display: block;
+    border: none;
+    width: 100%;
+    height: 100%;
+}
+
+/* Убедимся, что карта выглядит хорошо на всех устройствах */
+@media only screen and (max-width: 768px) {
+    .map-container iframe {
+        min-height: 250px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .map-container iframe {
+        min-height: 200px;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .map-container iframe {
+        min-height: 180px;
+    }
+}
+
+/* Стили для улучшения взаимодействия с Яндекс картой */
+.map-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    -webkit-overflow-scrolling: touch; /* Для iOS */
+}
+
+.map-wrapper iframe {
+    display: block;
+    border: none;
+    width: 100%;
+    height: 100%;
+    touch-action: auto !important; /* Разрешаем тач-жесты */
+}
+
+/* Класс для перехвата жестов (добавится через JavaScript) */
+.map-scroll-lock {
+    overflow: hidden;
+}
+
+.map-scroll-unlock {
+    overflow: auto;
+}
+
+/* ОБНОВЛЯЕМ СЕКЦИЮ ДРЕСС-КОДА */
+.dresscode-section {
+    padding: 40px 20px;
+    position: relative;
+    z-index: 1;
+    /* Убираем фон - будет белый как у других секций */
+    background-color: white;
+}
+
+/* Делаем серый фон темнее и добавляем отступы от границ экрана */
+.dresscode-gray-background {
+    background-color: #f0f0f0; /* Темнее чем было */
+    padding: 30px 20px;
+    /* Отступы от границ экрана: по 15px слева и справа */
+    margin: 0 15px 25px 15px;
+    border-radius: 0px;
+    /* Добавляем легкую тень для объемности */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e5e5; /* Тонкая граница */
+}
+
+/* Также добавляем отступы для остального контента в секции */
+.dresscode-button-container {
+    padding: 0 15px; /* Такие же отступы как у серого фона */
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.dresscode-title {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    text-transform: uppercase;
+    margin-bottom: 25px;
+    color: #000;
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.dresscode-text {
+    font-family: 'Georgia', serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 320px;
+    margin: 0 auto 15px;
+    color: #333;
+    text-align: center;
+}
+
+/* Контейнер для цветовых кружков */
+.color-palette {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 25px 0 30px;
+}
+
+.color-circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid rgba(224, 224, 224, 0.7);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dark-blue {
+    background-color: #0d1b44; /* Темно-синий цвет */
+}
+
+.black {
+    background-color: #000000; /* Черный цвет */
+}
+
+/* Кнопка подтверждения */
+.confirm-button {
+    display: block;
+    width: 220px;
+    height: 50px;
+    margin: 0 auto 8px;
+    padding: 12px 20px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+    text-transform: uppercase;
+    line-height: 26px;
+}
+
+.confirm-button:hover {
+    background-color: #333333;
+    transform: translateY(-2px);
+}
+
+.confirm-button:active {
+    background-color: #000000;
+    transform: translateY(0);
+}
+
+/* Контейнер для эмодзи и текста */
+.add-message-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0;
+}
+
+.message-emoji {
+    font-size: 14px;
+    opacity: 0.6;
+}
+
+.add-message-text {
+    text-align: center;
+    font-family: 'Georgia', serif;
+    font-weight: 300;
+    font-size: 13px;
+    color: rgba(0, 0, 0, 0.6);
+    margin: 0;
+}
+
+/* СЕКЦИЯ СВАДЕБНОЕ РАСПИСАНИЕ - как hero секция */
+.schedule-section {
+    padding: 40px 20px;
+    /* Убираем белый фон, чтобы был общий фон как у hero */
+    background-color: transparent;
+    position: relative;
+    z-index: 1;
+    /* Делаем минимальную высоту как у hero */
+    min-height: 80vh;
+}
+
+/* Создаем фон для секции расписания как у hero */
+.schedule-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('11.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: -1;
+    opacity: 1;
+}
+
+/* Белый полупрозрачный оверлей для лучшей читаемости текста */
+.schedule-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    z-index: -1;
+}
+
+.schedule-title {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    color: #000;
+    letter-spacing: 2px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.schedule-container {
+    max-width: 320px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.schedule-item {
+    display: flex;
+    margin-bottom: 35px;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Медиа-запросы для адаптивности */
+@media only screen and (max-width: 768px) {
+    .dresscode-section {
+        padding: 30px 15px;
+    }
+    
+    .dresscode-gray-background {
+        background-color: #eeeeee; /* Еще темнее для мобильных */
+        padding: 25px 15px;
+        margin: 0 10px 20px 10px;
+        border-radius: 0px;
+    }
+    
+    .dresscode-button-container {
+        padding: 0 10px;
+    }
+    
+    .schedule-section {
+        padding: 30px 15px;
+        min-height: 70vh;
+    }
+    
+    .color-circle {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .confirm-button {
+        width: 200px;
+        height: 48px;
+        font-size: 15px;
+    }
+    
+    .schedule-container {
+        max-width: 300px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .dresscode-section {
+        padding: 25px 10px;
+    }
+    
+    .dresscode-gray-background {
+        background-color: #e8e8e8; /* Еще темнее для маленьких экранов */
+        padding: 20px 15px;
+        margin: 0 8px 15px 8px;
+        border-radius: 0px;
+    }
+    
+    .dresscode-button-container {
+        padding: 0 8px;
+    }
+    
+    .schedule-section {
+        padding: 25px 10px;
+        min-height: 60vh;
+    }
+    
+    .dresscode-title, .schedule-title {
+        font-size: 22px;
+    }
+    
+    .dresscode-text {
+        font-size: 14px;
+        max-width: 300px;
+    }
+    
+    .color-circle {
+        width: 45px;
+        height: 45px;
+    }
+    
+    .color-palette {
+        gap: 20px;
+    }
+    
+    .confirm-button {
+        width: 180px;
+        height: 46px;
+        font-size: 14px;
+        border-radius: 10px;
+    }
+    
+    .schedule-container {
+        max-width: 280px;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .dresscode-section {
+        padding: 20px 8px;
+    }
+    
+    .dresscode-gray-background {
+        background-color: #e0e0e0; /* Самый темный для очень маленьких экранов */
+        padding: 18px 12px;
+        margin: 0 6px 12px 6px;
+        border-radius: 0px;
+    }
+    
+    .dresscode-button-container {
+        padding: 0 6px;
+    }
+    
+    .schedule-section {
+        padding: 20px 8px;
+        min-height: 50vh;
+    }
+    
+    .color-circle {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .confirm-button {
+        width: 170px;
+        height: 44px;
+        font-size: 13px;
+        border-radius: 8px;
+    }
+    
+    .schedule-container {
+        max-width: 260px;
+    }
+}
+
+
+
+
+/* ИСПРАВЛЕННЫЕ СТИЛИ ДЛЯ МОДАЛЬНЫХ ОКОН - ОПТИМАЛЬНАЯ ВЕРСИЯ */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: none;
+}
+
+.modal-container {
+    background-color: white;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    position: relative;
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 10;
+}
+
+.modal-header h3 {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #000;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+    line-height: 1;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.modal-close:hover {
+    color: #333;
+}
+
+.modal-content {
+    padding: 25px;
+    /* ОСТАВЛЯЕМ обычный отступ, без дополнительного для кнопок */
+    padding-bottom: 25px;
+}
+
+.modal-step {
+    display: none;
+}
+
+.modal-step.active {
+    display: block;
+}
+
+.step-indicator {
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 15px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.modal-step h4 {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    margin: 0 0 20px 0;
+    color: #000;
+    line-height: 1.4;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 400;
+}
+
+.form-input, .form-textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+    font-size: 16px !important;
+    -webkit-appearance: none;
+    appearance: none;
+    transform: translateZ(0);
+}
+
+.form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #000;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.radio-group, .checkbox-group {
+    margin: 20px 0 30px 0;
+}
+
+.radio-option, .checkbox-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    cursor: pointer;
+    padding: 8px 0;
+}
+
+.radio-option input, .checkbox-option input {
+    display: none;
+}
+
+.radio-custom, .checkbox-custom {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-radius: 50%;
+    margin-right: 12px;
+    position: relative;
+    flex-shrink: 0;
+    transition: border-color 0.3s;
+}
+
+.checkbox-custom {
+    border-radius: 4px;
+}
+
+.radio-option input:checked + .radio-custom {
+    border-color: #000;
+}
+
+.radio-option input:checked + .radio-custom::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #000;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.checkbox-option input:checked + .checkbox-custom {
+    border-color: #000;
+    background-color: #000;
+}
+
+.checkbox-option input:checked + .checkbox-custom::after {
+    content: '✓';
+    position: absolute;
+    color: white;
+    font-size: 12px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.radio-text, .checkbox-text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.4;
+}
+
+.info-box {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 6px;
+    margin: 20px 0;
+    border-left: 3px solid #000;
+}
+
+.info-box p {
+    font-family: 'Georgia', serif;
+    font-size: 14px;
+    color: #333;
+    line-height: 1.5;
+    margin: 0 0 10px 0;
+}
+
+.info-box p:last-child {
+    margin-bottom: 0;
+}
+
+/* КНОПКИ - РАЗМЕЩАЕМ ВНУТРИ КОНТЕНТА, А НЕ ФИКСИРОВАННЫМИ */
+.form-buttons {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 30px;
+    /* УБИРАЕМ фиксированное позиционирование */
+    position: static;
+    padding: 0;
+    background-color: transparent;
+    border-top: none;
+    box-shadow: none;
+}
+
+.modal-prev-btn, .modal-next-btn, .modal-submit-btn, .modal-close-btn {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s;
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px;
+}
+
+.modal-prev-btn {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.modal-prev-btn:hover {
+    background-color: #e8e8e8;
+}
+
+.modal-next-btn {
+    background-color: #000;
+    color: white;
+}
+
+.modal-next-btn:hover {
+    background-color: #333;
+}
+
+.modal-submit-btn {
+    background-color: #000;
+    color: white;
+}
+
+.modal-submit-btn:hover {
+    background-color: #333;
+}
+
+.modal-submit-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.modal-close-btn {
+    background-color: #000;
+    color: white;
+    margin-top: 20px;
+}
+
+.success-icon {
+    width: 60px;
+    height: 60px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    margin: 0 auto 20px;
+}
+
+#successStep {
+    text-align: center;
+}
+
+#successStep h4 {
+    color: #4CAF50;
+    font-weight: 700;
+}
+
+#successStep p {
+    font-family: 'Georgia', serif;
+    font-size: 15px;
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+/* ОПТИМАЛЬНЫЕ СТИЛИ ДЛЯ МОБИЛЬНЫХ - БЕЗ ПОЛНОЭКРАННОГО РЕЖИМА */
+@media only screen and (max-width: 768px) {
+    .modal-overlay {
+        padding: 20px;
+        align-items: center;
+        justify-content: center;
+        /* Разрешаем прокрутку если контент не помещается */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .modal-container {
+        width: 100%;
+        max-width: 400px;
+        max-height: 90vh;
+        border-radius: 10px;
+        margin: 0;
+        display: block;
+        /* Центрируем модальное окно */
+        position: relative;
+        top: auto;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        overflow: hidden;
+    }
+    
+    .modal-header {
+        position: sticky;
+        top: 0;
+        background-color: white;
+        z-index: 10;
+        padding: 15px 20px;
+        border-bottom: 1px solid #eee;
+        flex-shrink: 0;
+        /* Используем безопасные зоны */
+        padding-top: 15px;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    .modal-content {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 20px;
+        /* ВОССТАНАВЛИВАЕМ нормальные отступы */
+        padding-bottom: 20px;
+        min-height: auto;
+        position: relative;
+        max-height: calc(90vh - 70px); /* Отнимаем высоту заголовка */
+    }
+    
+    .modal-step {
+        min-height: auto;
+        padding-bottom: 0;
+    }
+    
+    .modal-step.active {
+        display: block;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateX(10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    .form-group {
+        margin-bottom: 20px;
+    }
+    
+    .form-input, .form-textarea {
+        font-size: 16px !important;
+        padding: 14px 15px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        background-color: white;
+        -webkit-appearance: none;
+        appearance: none;
+        transform: translateZ(0);
+        will-change: transform;
+    }
+    
+    /* Специальные стили для полей ввода на iOS */
+    input[type="text"],
+    input[type="tel"],
+    textarea {
+        font-size: 16px !important;
+        line-height: 1.4;
+    }
+    
+    /* Улучшенное отображение при фокусе */
+    .form-input:focus,
+    .form-textarea:focus {
+        border-color: #000;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+        outline: none;
+    }
+    
+    .radio-group, .checkbox-group {
+        margin: 20px 0;
+    }
+    
+    .radio-option, .checkbox-option {
+        padding: 12px 0;
+        border-bottom: 1px solid #f0f0f0;
+        margin-bottom: 0;
+    }
+    
+    .radio-option:last-child, .checkbox-option:last-child {
+        border-bottom: none;
+    }
+    
+    /* ВОССТАНАВЛИВАЕМ нормальное расположение кнопок */
+    .form-buttons {
+        position: static;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        padding: 0;
+        background-color: transparent;
+        border-top: none;
+        z-index: auto;
+        display: flex;
+        gap: 10px;
+        margin-top: 30px;
+        margin-bottom: 10px;
+        box-shadow: none;
+    }
+    
+    .modal-prev-btn, .modal-next-btn, .modal-submit-btn, .modal-close-btn {
+        flex: 1;
+        padding: 16px;
+        font-size: 16px;
+        border-radius: 10px;
+        font-weight: 600;
+        -webkit-tap-highlight-color: transparent;
+        min-height: 52px;
+        margin: 0;
+    }
+    
+    /* Улучшаем отображение шага 6 с текстовой областью */
+    #step6 .form-textarea {
+        min-height: 100px;
+        line-height: 1.4;
+    }
+    
+    /* Анимации для переключения шагов */
+    .modal-step {
+        transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    
+    /* Улучшаем доступность инпутов */
+    input[type="tel"], input[type="text"], textarea {
+        -webkit-user-select: text;
+        user-select: text;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Улучшаем отображение чекбоксов и радиокнопок */
+    .radio-option:active, .checkbox-option:active {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Стили для предотвращения наложения клавиатуры */
+    body.keyboard-open .modal-container {
+        max-height: 60vh !important;
+        transition: max-height 0.3s ease;
+    }
+}
+
+/* Для очень маленьких экранов */
+@media only screen and (max-width: 480px) {
+    .modal-overlay {
+        padding: 15px;
+    }
+    
+    .modal-header {
+        padding: 12px 15px;
+    }
+    
+    .modal-content {
+        padding: 15px;
+        padding-bottom: 15px;
+        max-height: calc(90vh - 60px);
+    }
+    
+    .modal-step h4 {
+        font-size: 15px;
+        margin-bottom: 15px;
+    }
+    
+    .form-input, .form-textarea {
+        padding: 12px 14px;
+    }
+    
+    .form-buttons {
+        margin-top: 25px;
+        margin-bottom: 5px;
+    }
+    
+    .modal-prev-btn, .modal-next-btn, .modal-submit-btn, .modal-close-btn {
+        padding: 14px;
+        min-height: 48px;
+        font-size: 14px;
+    }
+    
+    .radio-text, .checkbox-text {
+        font-size: 14px;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .modal-overlay {
+        padding: 10px;
+    }
+    
+    .modal-header {
+        padding: 10px 12px;
+    }
+    
+    .modal-content {
+        padding: 12px;
+        padding-bottom: 12px;
+        max-height: calc(90vh - 55px);
+    }
+    
+    .form-buttons {
+        margin-top: 20px;
+        margin-bottom: 5px;
+    }
+    
+    .modal-prev-btn, .modal-next-btn, .modal-submit-btn, .modal-close-btn {
+        padding: 12px;
+        min-height: 44px;
+        font-size: 13px;
+    }
+}
+
+/* Специальные стили для iOS */
+@supports (-webkit-touch-callout: none) {
+    /* Предотвращаем масштабирование текста в iOS */
+    input, textarea {
+        font-size: 16px !important;
+        line-height: 1.4 !important;
+    }
+    
+    /* Улучшаем поведение при фокусе */
+    input:focus, textarea:focus {
+        font-size: 16px !important;
+    }
+}
+
+/* Защита от "дерганий" при фокусе - улучшенная версия */
+input:focus, textarea:focus {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Улучшение доступности для скринридеров */
+@media (prefers-reduced-motion: reduce) {
+    .modal-step,
+    .modal-overlay,
+    .modal-container {
+        transition: none !important;
+    }
+}
+
+/* Предотвращаем синее выделение при тапе на iOS */
+button, input, textarea {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Класс для блокировки прокрутки страницы при открытой модалке */
+body.modal-open {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+/* ДОПОЛНИТЕЛЬНЫЕ ФИКСЫ ДЛЯ МОБИЛЬНЫХ КЛАВИАТУР */
+/* Стили для адаптации модального окна при открытой клавиатуре */
+@media only screen and (max-height: 600px) {
+    .modal-container {
+        max-height: 80vh;
+    }
+    
+    .modal-content {
+        max-height: calc(80vh - 70px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .form-buttons {
+        margin-top: 20px;
+        margin-bottom: 10px;
+    }
+}
+
+/* Для горизонтальной ориентации на мобильных */
+@media only screen and (max-width: 768px) and (orientation: landscape) {
+    .modal-container {
+        max-height: 85vh;
+        max-width: 90%;
+    }
+    
+    .modal-content {
+        max-height: calc(85vh - 70px);
+        padding: 15px;
+    }
+    
+    .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .form-buttons {
+        margin-top: 15px;
+    }
+}
+
+/* Улучшаем скроллинг внутри модального окна */
+.modal-content::-webkit-scrollbar {
+    width: 5px;
+}
+
+.modal-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.modal-content::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.modal-content::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* ФИКС ДЛЯ ТЕЛЕФОНА НА ШАГЕ 2 - УСТРАНЕНИЕ СКАЧКОВ */
+#phone {
+    /* Предотвращаем дергания */
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    /* Улучшаем производительность */
+    contain: content;
+}
+
+/* Улучшаем внешний вид при фокусе на телефоне */
+#phone:focus {
+    border-color: #000;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+    outline: none;
+    /* Убираем стандартное выделение iOS */
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Стили для предотвращения наложения текста */
+.modal-step {
+    /* Гарантируем, что контент не будет накладываться */
+    min-height: min-content;
+}
+
+/* Улучшаем отступы для длинных форм */
+#step6 .info-box + .checkbox-group {
+    margin-top: 25px;
+}
+
+#step6 .checkbox-group + .form-group {
+    margin-top: 25px;
+}
+
+/* Обеспечиваем, что кнопки всегда видны */
+.modal-step:last-child .form-buttons {
+    margin-bottom: 20px;
+}
+
+
+
+
+/* Zero секция */
+.zero-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.97);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+    pointer-events: all; /* Важно для кликабельности */
+}
+
+.zero-section.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.zero-content {
+    text-align: center;
+    max-width: 320px;
+    padding: 20px;
+    pointer-events: all; /* Разрешаем клики на контент */
+}
+
+.zero-title {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 36px;
+    letter-spacing: 8px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    color: #000;
+}
+
+.zero-date {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    letter-spacing: 4px;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.zero-names {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 28px;
+    letter-spacing: 4px;
+    margin-bottom: 40px;
+    color: #000;
+}
+
+.start-button {
+    display: block;
+    width: 180px;
+    height: 50px;
+    margin: 0 auto 15px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-transform: uppercase;
+    pointer-events: all; /* Важно! */
+
+        /* ДОБАВИТЬ ЭТИ СТРОКИ для iOS */
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    outline: none !important;
+}
+
+.start-button:hover {
+    background-color: #333333;
+    transform: translateY(-2px);
+}
+
+.start-button:active {
+    background-color: #000000;
+    transform: translateY(0);
+}
+
+.zero-subtext {
+    font-family: 'Georgia', serif;
+    font-weight: 300;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+    letter-spacing: 1px;
+    line-height: 1.4;
+}
+/* Стили для уведомления о звуке - УМЕНЬШЕННЫЕ */
+.sound-notification {
+    margin-top: 20px;
+    padding: 8px 12px;
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+    animation: pulseSound 2s infinite;
+}
+
+.sound-text {
+    font-family: 'Georgia', serif;
+    font-weight: 300;
+    font-size: 12px !important; /* Уменьшенный размер шрифта */
+    color: rgba(0, 0, 0, 0.7);
+    margin: 0;
+    line-height: 1.3;
+    text-align: center;
+    letter-spacing: 0.3px;
+}
+
+/* Убираем иконку, так как используем текст */
+.sound-icon {
+    display: none;
+}
+
+@keyframes pulseSound {
+    0% {
+        opacity: 0.7;
+        transform: scale(0.98);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0.7;
+        transform: scale(0.98);
+    }
+}
+
+/* Альтернативный вариант с восклицательными знаками как отдельные элементы */
+.sound-notification.alternative {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.sound-notification.alternative::before,
+.sound-notification.alternative::after {
+    content: '!';
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.sound-notification.alternative .sound-text {
+    font-size: 12px;
+}
+
+/* Для мобильных устройств - адаптация уведомления */
+@media only screen and (max-width: 768px) {
+    .sound-notification {
+        margin-top: 18px;
+        padding: 7px 10px;
+        max-width: 260px;
+    }
+    
+    .sound-text {
+        font-size: 11px !important;
+    }
+    
+    /* Для альтернативного варианта */
+    .sound-notification.alternative::before,
+    .sound-notification.alternative::after {
+        font-size: 13px;
+    }
+    
+    .sound-notification.alternative .sound-text {
+        font-size: 11px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .sound-notification {
+        margin-top: 15px;
+        padding: 6px 9px;
+        max-width: 240px;
+    }
+    
+    .sound-text {
+        font-size: 10px !important;
+    }
+    
+    /* Для альтернативного варианта */
+    .sound-notification.alternative {
+        gap: 6px;
+    }
+    
+    .sound-notification.alternative::before,
+    .sound-notification.alternative::after {
+        font-size: 12px;
+    }
+    
+    .sound-notification.alternative .sound-text {
+        font-size: 10px;
+    }
+}
+
+@media only screen and (max-width: 360px) {
+    .sound-notification {
+        margin-top: 12px;
+        padding: 5px 8px;
+        max-width: 220px;
+    }
+    
+    .sound-text {
+        font-size: 9px !important;
+        letter-spacing: 0.2px;
+    }
+    
+    /* Для альтернативного варианта */
+    .sound-notification.alternative {
+        gap: 5px;
+    }
+    
+    .sound-notification.alternative::before,
+    .sound-notification.alternative::after {
+        font-size: 11px;
+    }
+    
+    .sound-notification.alternative .sound-text {
+        font-size: 9px;
+    }
+}
+
+/* Скрываем элементы hero-секции при загрузке */
+.hero .fade-in-element,
+.hero .vertical-elements,
+.hero .main-content,
+.hero .countdown-wrapper {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+/* Когда zero-секция скрыта - показываем элементы hero-секции с анимацией */
+body:not(.zero-visible) .hero .fade-in-element,
+body:not(.zero-visible) .hero .vertical-elements,
+body:not(.zero-visible) .hero .main-content,
+body:not(.zero-visible) .hero .countdown-wrapper {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Анимация для каждого элемента с задержкой */
+body:not(.zero-visible) .date-vertical {
+    transition-delay: 0.1s;
+}
+
+body:not(.zero-visible) .vertical-line {
+    transition-delay: 0.2s;
+}
+
+body:not(.zero-visible) .name:nth-child(1) {
+    transition-delay: 0.3s;
+}
+
+body:not(.zero-visible) .and {
+    transition-delay: 0.4s;
+}
+
+body:not(.zero-visible) .name:nth-child(3) {
+    transition-delay: 0.5s;
+}
+
+body:not(.zero-visible) .invitation-text {
+    transition-delay: 0.6s;
+}
+
+body:not(.zero-visible) .date-details {
+    transition-delay: 0.7s;
+}
+
+body:not(.zero-visible) .waiting-text {
+    transition-delay: 0.8s;
+}
+
+body:not(.zero-visible) .countdown-item:nth-child(1) {
+    transition-delay: 0.9s;
+}
+
+body:not(.zero-visible) .countdown-item:nth-child(2) {
+    transition-delay: 1.0s;
+}
+
+body:not(.zero-visible) .countdown-item:nth-child(3) {
+    transition-delay: 1.1s;
+}
+
+body:not(.zero-visible) .countdown-item:nth-child(4) {
+    transition-delay: 1.2s;
+}
+
+body:not(.zero-visible) .countdown-item:nth-child(5) {
+    transition-delay: 1.3s;
+}
