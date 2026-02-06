@@ -417,7 +417,7 @@ function setupFormSubmission() {
                 submitBtn.textContent = 'Отправка...';
                 
                 // URL вашего Google Apps Script
-                const scriptUrl = 'https://script.google.com/macros/s/AKfycbz20JdkWyiORcm6wlHGjk8MbJlHTrmAGIbMo0GwqOZzCDXb_B1cLrwxgm4IoXKyw1-I/exec';
+                const scriptUrl = 'https://script.google.com/macros/s/AKfycbwrNW7dAnfBwDZb7G4kWh3xhm3QT-S2JheJKhonAkYNSVkDn4kgiDTUQOAjgZMa7g6Xpg/exec';
                 
                 try {
                     // Используем прокси для обхода CORS
@@ -955,3 +955,4 @@ document.addEventListener('touchmove', function(e) {
         }
     }
 }, { passive: false });
+
